@@ -1,38 +1,28 @@
 import express from "express";
-import ArmyList from "../models/ArmyList.js";
 import authMiddleware from "../middleware/auth.middleware.js";
+import {
+  createArmyList,
+  getMyArmyLists,
+  getArmyListById,
+  updateArmyList,
+  deleteArmyList,
+} from "../controllers/armyList.controller.js";
 
 const router = express.Router();
 
 // CREAR
-router.post("/", authMiddleware, async (req, res) => {
-  try {
-    const list = new ArmyList({
-      ...req.body,
-      user: req.user._id,
-    });
-
-    await list.save();
-    res.status(201).json(list);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Error al guardar la lista" });
-  }
-});
+router.post("/", authMiddleware, createArmyList);
 
 // OBTENER MIS LISTAS
-router.get("/", authMiddleware, async (req, res) => {
-  const lists = await ArmyList.find({ user: req.user._id }).sort({ createdAt: -1 });
-  res.json(lists);
-});
+router.get("/", authMiddleware, getMyArmyLists);
+
+// OBTENER UNA
+router.get("/:id", authMiddleware, getArmyListById);
+
+// ACTUALIZAR
+router.put("/:id", authMiddleware, updateArmyList);
 
 // ELIMINAR
-router.delete("/:id", authMiddleware, async (req, res) => {
-  await ArmyList.findOneAndDelete({
-    _id: req.params.id,
-    user: req.user._id,
-  });
-  res.json({ message: "Lista eliminada" });
-});
+router.delete("/:id", authMiddleware, deleteArmyList);
 
 export default router;

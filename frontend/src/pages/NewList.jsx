@@ -1,103 +1,81 @@
+// src/pages/NewList.jsx
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { apiRequest } from "../api/api";
-import { useAuth } from "../context/AuthContext";
-import { FACTIONS, DETACHMENTS } from "../data/factions";
+import "./NewList.css";
 
 export default function NewList() {
-  const { token } = useAuth();
+  const navigate = useNavigate();
 
-  const [name, setName] = useState("");
-  const [factionGroup, setFactionGroup] = useState("");
-  const [faction, setFaction] = useState("");
-  const [detachment, setDetachment] = useState("");
-  const [content, setContent] = useState("");
-  const [error, setError] = useState("");
-  const [ok, setOk] = useState("");
+  const [form, setForm] = useState({
+    name: "",
+    faction: "",
+    detachment: "",
+    points: 0,
+    listText: "",
+  });
 
-  const save = async () => {
-    setError("");
-    setOk("");
-
-    try {
-      await apiRequest(
-        "/lists",
-        "POST",
-        { name, faction, detachment, content },
-        token
-      );
-      setOk("Lista guardada correctamente");
-      setName("");
-      setFaction("");
-      setFactionGroup("");
-      setDetachment("");
-      setContent("");
-    } catch {
-      setError("Error al guardar la lista");
-    }
+  const submit = async (e) => {
+    e.preventDefault();
+    await apiRequest("/lists", "POST", form);
+    navigate("/lists");
   };
 
   return (
-    <div className="newlist-card">
-      <h2>Nueva Lista</h2>
+    <div className="newlist-page">
+      <h1>Nueva Lista</h1>
 
-      <div className="row">
+      <form className="newlist-form" onSubmit={submit}>
+        <div className="newlist-row">
+          <input
+            placeholder="Nombre de la lista"
+            value={form.name}
+            onChange={(e) =>
+              setForm({ ...form, name: e.target.value })
+            }
+            required
+          />
+
+          <input
+            type="number"
+            placeholder="Puntos"
+            value={form.points}
+            onChange={(e) =>
+              setForm({ ...form, points: Number(e.target.value) })
+            }
+          />
+
+          <input
+            placeholder="Facción"
+            value={form.faction}
+            onChange={(e) =>
+              setForm({ ...form, faction: e.target.value })
+            }
+          />
+        </div>
+
         <input
-          placeholder="Nombre de la lista"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          placeholder="Destacamento"
+          value={form.detachment}
+          onChange={(e) =>
+            setForm({ ...form, detachment: e.target.value })
+          }
         />
 
-        <select
-          value={factionGroup}
-          onChange={(e) => {
-            setFactionGroup(e.target.value);
-            setFaction("");
-            setDetachment("");
-          }}
-        >
-          <option value="">Grupo</option>
-          {Object.keys(FACTIONS).map((g) => (
-            <option key={g}>{g}</option>
-          ))}
-        </select>
+        <textarea
+          placeholder="Pega aquí la lista (New Recruit, Battlescribe, etc.)"
+          value={form.listText}
+          onChange={(e) =>
+            setForm({ ...form, listText: e.target.value })
+          }
+        />
 
-        <select
-          value={faction}
-          onChange={(e) => {
-            setFaction(e.target.value);
-            setDetachment("");
-          }}
-          disabled={!factionGroup}
-        >
-          <option value="">Facción</option>
-          {factionGroup &&
-            FACTIONS[factionGroup].map((f) => (
-              <option key={f}>{f}</option>
-            ))}
-        </select>
-
-        <select
-          value={detachment}
-          onChange={(e) => setDetachment(e.target.value)}
-          disabled={!DETACHMENTS[faction]}
-        >
-          <option value="">Destacamento</option>
-          {DETACHMENTS[faction]?.map((d) => (
-            <option key={d}>{d}</option>
-          ))}
-        </select>
-      </div>
-
-      <textarea
-        placeholder="Pega aquí la lista (New Recruit, Battlescribe, texto libre)"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-      />
-
-      {error && <p className="error">{error}</p>}
-      {ok && <p className="ok">{ok}</p>}
-
-      <button onClick={save}>Guardar Lista</button>
+        <div className="list-actions">
+          <button className="btn-edit" type="submit">
+            Guardar Lista
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
