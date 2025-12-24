@@ -1,0 +1,78 @@
+.newlist-page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+  color: #f5f5f5;
+}
+
+.newlist-page h1 {
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+}
+
+.newlist-form {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 215, 100, 0.25);
+  border-radius: 12px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.newlist-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.newlist-form input,
+.newlist-form textarea {
+  background: #0f0f0f;
+  border: 1px solid #333;
+  color: #f5f5f5;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.newlist-form input:focus,
+.newlist-form textarea:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.4);
+}
+
+.newlist-form textarea {
+  min-height: 280px;
+  resize: vertical;
+  font-family: monospace;
+}
+
+.newlist-form button {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #d4af37, #b8962e);
+  border: none;
+  color: #000;
+  padding: 12px 26px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.newlist-form button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.newlist-message {
+  color: #d4af37;
+  font-weight: bold;
+  text-align: right;
+}
+
