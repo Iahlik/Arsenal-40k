@@ -25,31 +25,37 @@ export default function Login() {
   };
 
   return (
-    <form className="auth-card" onSubmit={submit}>
-      <h2>Acceso al Arsenal</h2>
+    <div className="auth-page auth-login">
+        <img src="/src/assets/logo-no-bg.png" alt="Arsenal 40K Logo" style={{ width: '30%' }} />
+      <form className="auth-card" onSubmit={submit}>
+        <h2>Acceso al Arsenal</h2>
 
-      <input
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
-      <button>Entrar</button>
+        <button type="submit">Entrar</button>
 
-      <p>
-        <Link to="/forgot-password">¿Olvidaste tu contraseña?</Link>
-      </p>
+        <p className="auth-links">
+          <Link to="/forgot-password">¿Olvidaste tu contraseña?</Link>
+        </p>
 
-      <p>
-        ¿No tienes cuenta? <Link to="/register">Regístrate</Link>
-      </p>
-    </form>
+        <p className="auth-links">
+          ¿No tienes cuenta? <Link to="/register">Regístrate</Link>
+        </p>
+      </form>
+    </div>
   );
 }

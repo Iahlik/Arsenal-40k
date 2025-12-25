@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import Layout from "./components/Layout/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Login from "./pages/Login";
@@ -15,52 +15,35 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Navbar />
+      <Routes>
+        {/* Redirección raíz */}
+        <Route
+          path="/"
+          element={<Navigate to={token ? "/lists" : "/login"} />}
+        />
 
-      <main>
-        <Routes>
-          <Route
-            path="/"
-            element={<Navigate to={token ? "/lists" : "/login"} />}
-          />
+        {/* Rutas públicas (SIN layout) */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+        {/* Rutas protegidas (CON layout: navbar + footer) */}
+        <Route
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/lists" element={<Lists />} />
+          <Route path="/lists/new" element={<NewList />} />
+          <Route path="/lists/:id/edit" element={<EditList />} />
+        </Route>
 
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password/:token" element={<ResetPassword />} />
-
-          <Route
-            path="/lists"
-            element={
-              <ProtectedRoute>
-                <Lists />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/lists/new"
-            element={
-              <ProtectedRoute>
-                <NewList />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/lists/:id/edit"
-            element={
-              <ProtectedRoute>
-                <EditList />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* fallback */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </main>
+        {/* fallback */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
     </BrowserRouter>
   );
 }

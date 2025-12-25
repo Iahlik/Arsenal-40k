@@ -1,0 +1,23 @@
+/* ================================
+   Fondo compartido: Lists / NewList / EditList
+   ================================ */
+
+.lists-bg {
+  min-height: 100vh;
+  width: 100%;
+
+  /* ❌ NO flex / NO centrar contenido */
+  /* El layout lo controla lists-content */
+
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.6),
+      rgba(0, 0, 0, 0.6)
+    ),
+    url("./bg-tau-list.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}

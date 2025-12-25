@@ -1,42 +1,96 @@
-/* RESET */
+/* =========================
+   RESET + VARIABLES
+   ========================= */
+
 * {
   box-sizing: border-box;
 }
+
+:root {
+  --font-gothic: "Grenze Gotisch", serif;
+  --font-ui: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --gold: #e0c36e;
+  --gold-soft: rgba(224, 195, 110, 0.35);
+  --bg-dark: #0d0d0d;
+  --bg-panel: #141414;
+}
+
+/* =========================
+   BASE
+   ========================= */
 
 html,
 body {
   margin: 0;
   max-width: 100%;
   overflow-x: hidden;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-ui);
   background: radial-gradient(circle at top, #2a2a2a, #111);
   color: #f2f2f2;
   min-height: 100vh;
 }
 
-/* LINKS */
+/* =========================
+   TYPOGRAPHY
+   ========================= */
+
+.brand,
+h1,
+h2,
+.list-title {
+  font-family: var(--font-gothic);
+  letter-spacing: 0.5px;
+}
+
+body,
+.list-meta,
+input,
+textarea,
+button {
+  font-family: var(--font-ui);
+}
+
+/* =========================
+   LINKS
+   ========================= */
+
 a {
-  color: #e0c36e;
+  color: var(--gold);
   text-decoration: none;
 }
 a:hover {
   text-decoration: underline;
 }
 
-/* NAVBAR */
+/* =========================
+   NAVBAR (STICKY)
+   ========================= */
+
 .navbar {
   width: 100%;
-  background: #0d0d0d;
-  border-bottom: 1px solid #222;
+  background: var(--bg-dark);
+  border-bottom: 1px solid rgba(224, 195, 110, 0.25);
   padding: 14px 24px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  /* STICKY */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  /* Look & feel */
+  backdrop-filter: blur(6px);
 }
 
 .brand {
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
+  color: var(--gold);
+  text-shadow: 0 0 8px rgba(224, 195, 110, 0.3);
 }
 
 .navbar-right a,
@@ -46,28 +100,195 @@ a:hover {
 
 .navbar-right button {
   background: transparent;
-  border: 1px solid #e0c36e;
-  color: #e0c36e;
+  border: 1px solid var(--gold);
+  color: var(--gold);
   padding: 6px 12px;
   cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.15s ease;
 }
+
 .navbar-right button:hover {
-  background: #e0c36e;
+  background: var(--gold);
   color: #111;
 }
 
-/* MAIN */
+/* =========================
+   MAIN LAYOUT
+   ========================= */
+
 main {
   width: 100%;
-  padding: 40px 20px;
 }
 
-/* AUTH */
+/* =========================
+   AUTH / SESSION MODULES
+   ========================= */
+
+.auth-page {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(91.5vh);
+}
+
+.auth-login {
+  min-height: calc(91.5vh);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.437),
+      rgba(0, 0, 0, 0.9)
+    ),
+    url("/src/assets/bg-login-tau.webp");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .auth-card {
-  background: linear-gradient(180deg, #1c1c1c, #141414);
-  border: 1px solid #2a2a2a;
+  background: radial-gradient(circle at top, #1a1a1a, var(--bg-panel));
+  border-radius: 14px;
+  padding: 34px 36px;
+  box-shadow:
+    0 0 40px rgba(0, 0, 0, 0.85),
+    inset 0 0 20px rgba(224, 195, 110, 0.05);
+}
+
+.auth-card h2 {
+  text-align: center;
+  margin-bottom: 26px;
+  font-size: 1.8rem;
+  color: var(--gold);
+  text-shadow: 0 0 12px rgba(224, 195, 110, 0.35);
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth-card input {
+  background: #0f0f0f;
+  border: 1px solid #333;
+  color: #f2f2f2;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-card input::placeholder {
+  color: #777;
+}
+
+.auth-card input:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 1px rgba(224, 195, 110, 0.45);
+}
+
+.auth-card button {
+  margin-top: 10px;
+  background: linear-gradient(135deg, #e0c36e, #b89c3c);
+  border: none;
   border-radius: 10px;
-  max-width: 420px;
-  padding: 32px;
-  margin: 40px auto;
+  padding: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: #111;
+  letter-spacing: 0.5px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.auth-card button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(224, 195, 110, 0.45);
+}
+
+.auth-card p {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+/* =========================
+   FEEDBACK
+   ========================= */
+
+.error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid #ef4444;
+  color: #ff8b8b;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.ok {
+  color: #7dff9a;
+}
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.app-footer {
+  padding: 2.5rem 1rem;
+
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 10, 0.95),
+    rgba(10, 10, 10, 0.85)
+  );
+
+  border-top: 1px solid rgba(224, 195, 110, 0.25);
+  color: #ddd;
+  text-align: center;
+}
+
+.footer-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.app-footer h4 {
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.footer-stack,
+.footer-author {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.footer-disclaimer {
+  margin-top: 1.25rem;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+/* PRINT */
+
+.btn-print {
+  background: #111;
+  color: #facc15;
+  border: 1px solid #facc15;
+}
+
+.btn-print:hover {
+  background: #facc15;
+  color: #111;
 }
